@@ -15,19 +15,27 @@ struct node {
 
 ## 0.2 algorithm
 
+0. if the source == target, exit.
+
+---
+
 1. If the frontier is empty,
+
     Stop. There is no solution to the problem.
 
-2. Remove a node from the frontier. This is the node that will be considered.
+2. Remove a node from the frontier and add to exlored set.
 
-3. If the node contains the goal state,
+3.  Expand the node (find all the new nodes that could be reached from this node)
+
+    If the new node is the goal state,
 
     *   Return the solution. Stop.
     
     Else,
 
-    * Expand the node (find all the new nodes that could be reached from this node), and add resulting nodes to the frontier.
-    * Add the current node to the explored set.
+    * Add the new node to the frontier set.(**if the both frontier and explored set not contain this node**, else **endless loop** or **the node that has been added to the frontier set will be replace!**)
+
+this method for the **BFS** is guaranteed to be **optimal**
 
 ## 0.3 DFS
 
