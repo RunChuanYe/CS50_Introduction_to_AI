@@ -1,4 +1,9 @@
 class Node():
+    """
+    state: curr_people_id
+    parent: last_people_id
+    action: movie_id in which both of state and parent star
+    """
     def __init__(self, state, parent, action):
         self.state = state
         self.parent = parent
@@ -7,32 +12,59 @@ class Node():
 
 class StackFrontier():
     def __init__(self):
-        self.frontier = []
+        self.frontier = []          # node
+        self.exploreds = {}      # node.state: node
+        self.frontier_ids = set()
 
-    def add(self, node):
-        self.frontier.append(node)
+    def add_to_frontier(self, node):
+        # safe
+        # else form a loop
+        if node.state not in self.exploreds.keys() and node.state not in self.frontier_ids:
+            self.frontier.append(node)
+            self.frontier_ids.add(node.state)
 
-    def contains_state(self, state):
-        return any(node.state == state for node in self.frontier)
+    def add_to_explored(self, node):
+        self.exploreds[node.state] = node
 
-    def empty(self):
+    def is_target(self, node, target):
+        return node.state == target
+
+    def get_node_explored_by_id(self, id):
+        return self.exploreds.get(id, None)
+
+    def empty_frontier(self):
         return len(self.frontier) == 0
 
     def remove(self):
-        if self.empty():
+        if self.empty_frontier():
             raise Exception("empty frontier")
         else:
             node = self.frontier[-1]
             self.frontier = self.frontier[:-1]
+            self.frontier_ids.remove(node.state)
             return node
-
 
 class QueueFrontier(StackFrontier):
 
     def remove(self):
-        if self.empty():
+        if self.empty_frontier():
             raise Exception("empty frontier")
         else:
             node = self.frontier[0]
             self.frontier = self.frontier[1:]
+            self.frontier_ids.remove(node.state)
             return node
+
+if __name__ == "__main__":
+    node1 = Node(1, 1, 1)
+    node2 = Node(1, 1, 1)
+
+    nodes = set([node2])
+    print(node1 in nodes)
+
+    nodes.add(node1)
+    print(nodes)
+
+    li = [1, 2, 3, 4, 5]
+    li.reverse()
+    print(li)

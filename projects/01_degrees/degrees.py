@@ -4,6 +4,7 @@ import sys
 from util import Node, StackFrontier, QueueFrontier
 
 # Maps names to a set of corresponding person_ids
+# (because it’s possible that multiple actors have the same name).
 names = {}
 
 # Maps person_ids to a dictionary of: name, birth, movies (a set of movie_ids)
@@ -89,12 +90,36 @@ def shortest_path(source, target):
     Returns the shortest list of (movie_id, person_id) pairs
     that connect the source to the target.
 
+    target, source is people_id
+    
     If no possible path, returns None.
     """
+    if source == target:
+        sys.exit(f"{source} == {target}")
+    queue = QueueFrontier()
+    curr_node = Node(source, None, None)
+    queue.add_to_frontier(curr_node)
 
-    # TODO
-    raise NotImplementedError
+    while True:
+        if queue.empty_frontier():
+            return None
+        curr_node = queue.remove()
 
+        neightbors = neighbors_for_person(curr_node.state)
+        queue.add_to_explored(curr_node)
+        # error ever
+        parent_state = curr_node.state
+        for neightbor in neightbors:
+            curr_node = Node(neightbor[1], parent_state, neightbor[0])
+            if queue.is_target(curr_node, target):
+                path = []
+                while True:
+                    path.append((curr_node.action, curr_node.state))
+                    if curr_node.parent is None:
+                        path.reverse()
+                        return path[1:]
+                    curr_node = queue.get_node_explored_by_id(curr_node.parent)
+            queue.add_to_frontier(curr_node)     
 
 def person_id_for_name(name):
     """
