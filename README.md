@@ -3,6 +3,26 @@
 
 # Proj
 
+## 00_pkg
+
+Install all pkg needed to setup.
+
+run:
+
+1. `conda env create -f .\package-list.yaml`
+
+    Using defaul env name: `cs50`
+
+    **Or**
+
+    `conda env create -f .\package-list.yaml -n <new_env_name>`
+
+    Specific the env name
+
+2. **make sure new env is used**
+
+**please ignore other pkg install, if you have run above.**
+
 ## 01_degrees
 
 Using the **BFS** method, BFS is always guaranteed to be optimal.
@@ -26,7 +46,7 @@ res:
 
 ### 02.1 pkg install
 
-Install pygame:
+Install pygame: **(Upgrade and just for curr user)**
 
 `python -m pip install -U pygame --user`
 
@@ -34,15 +54,17 @@ test:
 
 `python -m pygame.examples.aliens`
 
+Uninstall pygame:
+
+`python -m pip uninstall pygame`
+
 ref: [pygame.org](https://www.pygame.org/wiki/GettingStarted)
 
 Or Using `conda` **Recommanded**
 
-1. `cd .\projects\02_tic_tac_toe\`
+1. `conda env create -f .\package-list.yaml`
 
-2. `conda env create -f .\package-list.yaml`
-
-    Using defaul env name: `cs5002`
+    Using defaul env name: `cs50`
 
     **Or**
 
@@ -50,7 +72,7 @@ Or Using `conda` **Recommanded**
 
     Specific the env name
 
-3. **make sure new env is used**
+2. **make sure new env is used**
 
 # Test
 
