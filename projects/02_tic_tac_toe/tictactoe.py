@@ -170,7 +170,25 @@ def utility(board):
     else:
         return 0
 
-def dfs_minimax(board):
+def alpha_bate_pruning(val, opti_vals, curr_player, bound):
+    # second level: opti_vals, curr_level
+    # val is third level
+    if curr_player == X:    # first level is O
+        for i in range(bound):
+            # curr second_level's node (from top --(action)--> second)
+            # is >= val for X chooes max.
+            # however, the top is O, will only choose min, so
+            # the curr second_level's node will not be considered
+            # for curr second_level's node > other second_level's node
+            if val > opti_vals[i]:
+                return True
+    if curr_player == O:    # first levle is X
+        for i in range(bound):
+            if val < opti_vals[i]:
+                return True
+    return False
+
+def dfs_minimax(board, opti_vals_par, bound):
 
     if terminal(board):
         return utility(board)
@@ -179,15 +197,30 @@ def dfs_minimax(board):
     curr_player = player(board)
     # X need to max curr_val, O need to min
     # safe for -2 and 2
-    opti_val = -2 if curr_player == X else 2
 
-    for action in posi_actions:
+    opti_val = -2 if curr_player == X else 2
+    opti_vals = [-2 for i in range(len(posi_actions))] \
+            if curr_player == X else [2 for i in range(len(posi_actions))]
+
+    for idx, action in enumerate(posi_actions):
         new_board = result(board, action)
-        tmp_val = dfs_minimax(new_board)
-        if curr_player == X and opti_val < tmp_val:
-            opti_val = tmp_val
-        if curr_player == O and opti_val > tmp_val:
-            opti_val = tmp_val
+        tmp_val = dfs_minimax(new_board, opti_vals, idx)
+        if curr_player == X and opti_vals[idx] < tmp_val:
+            opti_vals[idx] = tmp_val
+            if (alpha_bate_pruning(opti_vals[idx], opti_vals_par, curr_player, bound)):
+                break
+        if curr_player == O and opti_vals[idx] > tmp_val:
+            opti_vals[idx] = tmp_val
+            if (alpha_bate_pruning(opti_vals[idx], opti_vals_par, curr_player, bound)):
+                break
+
+
+    for val in opti_vals:
+        if curr_player == X and opti_val < val:
+            opti_val = val
+        if curr_player == O and opti_val > val:
+            opti_val = val
+    # return second_level's node val
     return opti_val
 
 def minimax(board):
@@ -199,18 +232,29 @@ def minimax(board):
 
     posi_actions = actions(board)
     curr_player = player(board)
-    optiaml_action = None
+    optimal_action = None
+    optimal_actions = [None for i in range(len(posi_actions))]
     # X need to max curr_val, O need to min
     # safe for -2 and 2
     opti_val = -2 if curr_player == X else 2
+    opti_vals = [-2 for i in range(len(posi_actions))] \
+            if curr_player == X else [2 for i in range(len(posi_actions))]
 
-    for action in posi_actions:
+    for idx, action in enumerate(posi_actions):
         new_board = result(board, action)
-        tmp_val = dfs_minimax(new_board)
-        if curr_player == X and opti_val < tmp_val:
-            opti_val = tmp_val
-            optiaml_action = action
-        if curr_player == O and opti_val > tmp_val:
-            opti_val = tmp_val
-            optiaml_action = action
-    return optiaml_action
+        tmp_val = dfs_minimax(new_board, opti_vals, idx)
+        if curr_player == X and opti_vals[idx] < tmp_val:
+            opti_vals[idx] = tmp_val
+            optimal_actions[idx] = action
+        if curr_player == O and opti_vals[idx] > tmp_val:
+            opti_vals[idx] = tmp_val
+            optimal_actions[idx] = action
+    
+    for idx, val in enumerate(opti_vals):
+        if curr_player == X and opti_val < val:
+            opti_val = val
+            optimal_action = optimal_actions[idx]
+        if curr_player == O and opti_val > val:
+            opti_val = val
+            optimal_action = optimal_actions[idx]
+    return optimal_action
