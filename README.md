@@ -74,6 +74,23 @@ Or Using `conda` **Recommanded**
 
 2. **make sure new env is used**
 
+
+### 02.2 details
+
+- Using `copy.deepcopy()`
+
+- **Since Tic-Tac-Toe is a tie given optimal play by both sides, you should never be able to beat the AI (though if you don’t play optimally as well, it may beat you!)**
+
+- Alpha-beta pruning is optional, but may make your AI run more efficiently!
+
+res:
+
+![1673177070388](image/README/1673177070388.png)
+
+res: (**Using Alpha-Beta Pruning**)
+
+![1673179781373](image/README/1673179781373.png)
+
 # Test
 
 A nice test framework: [CS50AI-test](https://github.com/jetkan-yk/cs50ai-test)
