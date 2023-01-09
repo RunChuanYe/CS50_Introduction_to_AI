@@ -63,8 +63,12 @@ However, it is important to emphasize that, as with any heuristic, it can go wro
 **heuristic function** $h(n)$:
 the function estimates **how close to the goal the next node is**, but it can be **mistaken**.
 
-**Manhattan distance**: 
+e.g. h(n) in the maze game: **Manhattan distance**: 
 $d(x, y) = |x_1 - x_2| + |y_1 - y_2|$
+
+e.g. in the maze game
+
+this algorithm will choose the min(shortest) h(n) in all options
 
 ## 0.6 A* Search
 
@@ -74,6 +78,10 @@ For A* search to be **optimal**, the heuristic function, h(n), should be:
 
 *   Admissible, or never overestimating the true cost, and
 *   Consistent, which means that the estimated path cost to the goal of a new node in addition to the cost of transitioning to it from the previous node is greater or equal to the estimated path cost to the goal of the previous node. To put it in an equation form, h(n) is consistent if **for every node** n and successor node n’ with step cost c, `h(n) ≤ h(n’) + c`, **which means the h(n) is the shortest path's cost.**
+
+e.g. in the maze game
+
+this algorithm will choose the min(shortest) h(n) + g(n) in all options
 
 ## 0.7 Adversarial Search
 
