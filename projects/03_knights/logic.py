@@ -118,6 +118,7 @@ class And(Sentence):
         self.conjuncts.append(conjunct)
 
     def evaluate(self, model):
+        # reuturn True iff all the ele True
         return all(conjunct.evaluate(model) for conjunct in self.conjuncts)
 
     def formula(self):
@@ -127,10 +128,14 @@ class And(Sentence):
                            for conjunct in self.conjuncts])
 
     def symbols(self):
+        # ret a set
         return set.union(*[conjunct.symbols() for conjunct in self.conjuncts])
 
 
 class Or(Sentence):
+    """
+    inclusive or
+    """
     def __init__(self, *disjuncts):
         for disjunct in disjuncts:
             Sentence.validate(disjunct)
@@ -226,7 +231,11 @@ class Biconditional(Sentence):
 
 
 def model_check(knowledge, query):
-    """Checks if knowledge base entails query."""
+    """
+    Checks if knowledge base entails query.
+    if multiple logical sentences are known,
+    they can be joined together in an And expression in the knowledge
+    """
 
     def check_all(knowledge, query, symbols, model):
         """Checks if knowledge base entails query, given a particular model."""
