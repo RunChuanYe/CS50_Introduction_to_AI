@@ -1,8 +1,8 @@
 # 03_Knights
 
 knowledge related:
-- **propositional logic**
-- **model-checking algorithm**
+- **[propositional logic](../notes/lecture1.md/#12-propositional-logic)**
+- **[model-checking algorithm](../notes//lecture1.md/#131-model-checking-algorithm)**
 
 problem:
 

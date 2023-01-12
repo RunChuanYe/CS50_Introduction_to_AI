@@ -4,9 +4,9 @@ Write an AI to rank web pages by importance.
 
 knowledge related:
 
-- **Markov Chain**
-    1. sampling.
-    2. iteration.
+- **[Markov Chain](../notes/lecture2.md/#28-markov-models)**
+    1. [sampling](../notes/lecture2.md/#2712-sampling).
+    2. [iteration](#0512-iterative-algorithm).
 
 ## 05.1 Background
 

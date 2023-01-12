@@ -1,7 +1,7 @@
 # 01_degrees
 
 knowledge related:
-- **BFS**
+- **[BFS](../notes/lecture0.md/#04-bfs)**
 
 Using the **BFS** method, BFS is always guaranteed to be optimal.
 

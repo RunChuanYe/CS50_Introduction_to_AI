@@ -2,8 +2,8 @@
 
 knowledge related:
 
-- **Minimax**
-- **Alpha-Beta Pruning**
+- **[Minimax](../notes/lecture0.md/#071-minimax)**
+- **[Alpha-Beta Pruning](../notes/lecture0.md/#072-alpha-beta-pruning)**
 
 ## 02.1 pkg install
 
