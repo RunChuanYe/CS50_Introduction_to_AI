@@ -1,5 +1,8 @@
 # 01_degrees
 
+knowledge related:
+- **BFS**
+
 Using the **BFS** method, BFS is always guaranteed to be optimal.
 
 Improv and Fix:

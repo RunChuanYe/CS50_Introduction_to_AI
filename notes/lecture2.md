@@ -91,7 +91,7 @@ In this equation,
 - y for all the values of the hidden variables,
 - and α normalizes the result such that we end up with probabilities that add up to 1.
 
-**Goal: get the X's distribution**
+**Goal: get the P(X|e)'s distribution**
 
 **so, we should get the joint distribution of all variables first!**
 

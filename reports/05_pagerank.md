@@ -2,7 +2,14 @@
 
 Write an AI to rank web pages by importance.
 
+knowledge related:
+
+- **Markov Chain**
+    1. sampling.
+    2. iteration.
+
 ## 05.1 Background
+
 **Important ?**
 
 One heuristic might be that an “important” page is one that many other pages link to, since it’s reasonable to imagine that more sites will link to a higher-quality webpage than a lower-quality webpage.
@@ -88,5 +95,29 @@ notice:
     1. sampling: samples[page] / total_sample
     2. iterating: if a page that has empty link set, then treat it as link to all other page in the pg set
 
+- tips: hot to get a sample given distribution
+
+    ```py
+    # key: page_name, value: range for curr page
+    page_range = dict()
+    curr_range = 0
+    for p in transition_model:
+        curr_range += transition_model[p]
+        page_range[p] = curr_range
+
+    # get random float from [0.0, 1.0)
+    random_sample = random.random()
+
+    # get page name that includes the random_sample
+    res = None
+    for p in page_range:
+        if page_range[p] > random_sample:
+            if res is None:
+                res = p
+                continue
+            if page_range[res] > page_range[p]:
+                res = p
+    return res
+    ```
 res:
 ![1673505644338](image/05_pagerank/1673505644338.png)

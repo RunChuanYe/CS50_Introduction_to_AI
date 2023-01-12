@@ -1,6 +1,12 @@
 # 03_Knights
 
-problem: how to **represent these puzzles using propositional logic**, such that an AI running a **model-checking algorithm** could solve these puzzles for us.
+knowledge related:
+- **propositional logic**
+- **model-checking algorithm**
+
+problem:
+
+how to **represent these puzzles using propositional logic**, such that an AI running a **model-checking algorithm** could solve these puzzles for us.
 
 attention:
 - printing out **any conclusions** that the model checking algorithm is able to make.

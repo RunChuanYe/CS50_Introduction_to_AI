@@ -1,5 +1,10 @@
 # 02_tic_tac_toe
 
+knowledge related:
+
+- **Minimax**
+- **Alpha-Beta Pruning**
+
 ## 02.1 pkg install
 
 Install pygame: **(Upgrade and just for curr user)**

@@ -1,5 +1,10 @@
 # 04_Minesweeper
 
+knowledge related:
+- **KB inference**
+- **better KB representation**
+
+note:
 - **flag a mine** by right-clicking on a cell (or two-finger clicking, depending on the computer).
 
 ## 04.1 Knowledge Representation:
