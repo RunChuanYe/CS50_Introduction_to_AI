@@ -360,6 +360,9 @@ class CrosswordCreator():
         # get a res
         if self.consistent(assignment):
             return assignment
+        # ever error
+        if self.assignment_complete(assignment):
+            return None
 
         # select curr var
         curr_var = self.select_unassigned_variable(assignment)
@@ -370,6 +373,8 @@ class CrosswordCreator():
             assignment[curr_var] = val
             if self.backtrack(assignment) is not None:
                 return assignment
+            # ever error
+            del assignment[curr_var]
         return None
 
 def main():
