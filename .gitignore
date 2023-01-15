@@ -1,3 +1,4 @@
 slides
 __pycache__
 .pytest_cache
+*.png
