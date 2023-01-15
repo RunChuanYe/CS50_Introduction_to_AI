@@ -329,20 +329,37 @@ class CrosswordCreator():
         # return the last one (highest degrees)
         return sorted_vars[-1]
 
-    def check_conflict_helper(self, cur_var, cur_val, assignment):
+    def inference_assign(self, assignment):
         """
-            return true if there is a conflict
-            otherwise return false
+        return a list of tuple
+        where a tuple is a (var, val) pair
+        mean that in the curr assignment, the var has only one choice, that is val
         """
-        for var in assignment:
-            if cur_val == assignment[var]:
-                return True
-            if self.crossword.overlaps[cur_var, var] is None:
-                continue
-            x_idx, y_idx = self.crossword.overlaps[cur_var, var]
-            if assignment[var][y_idx] != cur_val[x_idx]:
-                return True
-        return False
+
+        res = []
+        remain_vars = set(self.crossword.variables) - set(assignment)
+        assigned_vars = set(assignment)
+        # check all remain_vars if any of them has only one choice
+        for remain_var in remain_vars:
+            remain_vals = list(self.domains[remain_var])
+            for neighbor in self.crossword.neighbors(remain_var):
+                if neighbor in assigned_vars:
+                    new_remain_vals = []
+                    val_neighbor = assignment[neighbor]
+                    # neighbor must overlap
+                    x_idx, y_idx = self.crossword.overlaps[remain_var, neighbor]
+                    for val_curr_var in remain_vals:
+                        # remove conflict assignment
+                        if self.check_char_conflict(x_idx, y_idx, val_curr_var, {val_neighbor}):
+                            continue
+                        new_remain_vals.append(val_curr_var)
+                    remain_vals = new_remain_vals
+            if len(remain_vals) == 1:
+                res.append((remain_var, remain_vals[0]))
+            # for the impossible assignment, stop curr backtrace used in the backtrace func.
+            if len(remain_vals) == 0:
+                res.append((remain_var, None))
+        return res
 
     def backtrack(self, assignment):
         """
@@ -366,8 +383,24 @@ class CrosswordCreator():
         for val in vals:
             assignment[curr_var] = val
             if self.consistent(assignment):
+
+                inferences = self.inference_assign(assignment)
+                if len(inferences):
+                    # conflict assignment
+                    if any(assign[1] is None for assign in inferences):
+                        del assignment[curr_var]
+                        continue
+
+                    for k, v in inferences:
+                        assignment[k] = v
+
                 if self.backtrack(assignment) is not None:
                     return assignment
+
+                if len(inferences):
+                    for k, v in inferences:
+                        del assignment[k]
+
             # ever error
             del assignment[curr_var]
         return None
