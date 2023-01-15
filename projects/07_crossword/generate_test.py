@@ -42,6 +42,7 @@ def test_optimization():
     crossword = Crossword("data/structure3.txt", "data/words2.txt")
     creator = CrosswordCreator(crossword)
     assignment = creator.solve()
+    print('\n')
     generate_output(creator, assignment, f"data/output3-2.png")
 
     assert len(assignment) == len(crossword.variables)
