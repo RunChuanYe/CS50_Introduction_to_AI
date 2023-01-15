@@ -300,34 +300,19 @@ class CrosswordCreator():
         if len(remain_vars) == 1:
             return list(remain_vars)[0]
         # num of vars >= 2 
-        # get remain num of vals
-        remain_vals = dict()
-        for var in remain_vars:
-            remain_vals[var] = len(self.domains[var])
-        sorted_vars = [k for k, v in sorted(remain_vals.items(), key=lambda item: item[1])]
-
-        # check if there is a tie
-        min_val_vars = []
-        for var in sorted_vars:
-            # min val remaining
-            if remain_vals[var] == remain_vals[sorted_vars[0]]:
-                min_val_vars.append(var)
-
-        if len(min_val_vars) == 1:
-            return min_val_vars[0]
-
-        # a tie with same min val remaining 
-        # get the highest degrees
-
-        degrees_vars = dict()
-        # get num of neighbor
-        for var in min_val_vars:
-            degrees_vars[var] = len(self.crossword.neighbors(var))
         
-        sorted_vars = [k for k, v in sorted(degrees_vars.items(), key=lambda item: item[1])]
+        # https://www.adamsmith.haus/python/answers/how-to-sort-by-two-keys-in-python
+        # using sorted specific two key
 
-        # return the last one (highest degrees)
-        return sorted_vars[-1]
+        h_func = [
+            (var, len(self.domains[var]), len(self.crossword.neighbors(var)))
+            for var in remain_vars
+        ]
+        
+        sorted_h_func = sorted(h_func, key= lambda x: (x[1], x[2]))
+
+        return sorted_h_func[0][0]
+
 
     def inference_assign(self, assignment):
         """
