@@ -168,6 +168,7 @@ class CrosswordCreator():
         """
 
         # If `arcs` is None, begin with initial list of all arcs in the problem.
+        # all arcs include both the (var1, var2) and (var2, var1)
         if arcs is None:
             overlaps = {
                 key: self.crossword.overlaps[key]
@@ -175,7 +176,6 @@ class CrosswordCreator():
                 if self.crossword.overlaps[key] is not None
             }
             arcs = list(overlaps.keys())
-        # all arcs include both the (var1, var2) and (var2, var1)
 
 
         while len(arcs) != 0:
@@ -217,11 +217,6 @@ class CrosswordCreator():
                not all variables will necessarily be present in the assignment.
             4. ignore the length check
         """
-
-        # Note that the assignment may not be complete:
-        if not self.assignment_complete(assignment):
-            return False
-
         # not duplicate words
         if len(set(assignment.values())) < len(assignment.keys()):
             return False
@@ -230,10 +225,11 @@ class CrosswordCreator():
         for overlap in self.crossword.overlaps:
             if self.crossword.overlaps[overlap] is None:
                 continue
-            x_idx, y_idx = self.crossword.overlaps[overlap]
-            if self.check_char_conflict(x_idx, y_idx,\
-                assignment[overlap[0]], {assignment[overlap[1]]}):
-                return False
+            if overlap[0] in assignment and overlap[1] in assignment:
+                x_idx, y_idx = self.crossword.overlaps[overlap]
+                if self.check_char_conflict(x_idx, y_idx,\
+                    assignment[overlap[0]], {assignment[overlap[1]]}):
+                    return False
         return True
 
 
@@ -280,7 +276,9 @@ class CrosswordCreator():
                         h[x_val] += 1
 
         # get the ordered list of val in the order of h increasing
-        return sorted(h)
+        # return sorted(h)
+        return [k for k, v in sorted(h.items(), key=lambda item: item[1])]
+        # return self.domains[var]
 
     def select_unassigned_variable(self, assignment):
         """
@@ -337,12 +335,13 @@ class CrosswordCreator():
             otherwise return false
         """
         for var in assignment:
-            if (cur_var, var) in self.crossword.overlaps:
-                if self.crossword.overlaps[cur_var, var] is None:
-                    continue
-                x_idx, y_idx = self.crossword.overlaps[cur_var, var]
-                if assignment[var][y_idx] != cur_val[x_idx]:
-                    return True
+            if cur_val == assignment[var]:
+                return True
+            if self.crossword.overlaps[cur_var, var] is None:
+                continue
+            x_idx, y_idx = self.crossword.overlaps[cur_var, var]
+            if assignment[var][y_idx] != cur_val[x_idx]:
+                return True
         return False
 
     def backtrack(self, assignment):
@@ -357,22 +356,18 @@ class CrosswordCreator():
         your algorithm is more efficient if you interleave search with inference (as by maintaining arc consistency every time you make a new assignment
         """
 
-        # get a res
-        if self.consistent(assignment):
-            return assignment
         # ever error
         if self.assignment_complete(assignment):
-            return None
+            return assignment
 
         # select curr var
         curr_var = self.select_unassigned_variable(assignment)
         vals = self.order_domain_values(curr_var, assignment)
         for val in vals:
-            if self.check_conflict_helper(curr_var, val, assignment):
-                continue
             assignment[curr_var] = val
-            if self.backtrack(assignment) is not None:
-                return assignment
+            if self.consistent(assignment):
+                if self.backtrack(assignment) is not None:
+                    return assignment
             # ever error
             del assignment[curr_var]
         return None
