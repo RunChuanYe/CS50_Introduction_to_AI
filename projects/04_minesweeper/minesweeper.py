@@ -347,3 +347,25 @@ class MinesweeperAI():
                     return (i, j)
 
         return None
+
+if __name__ == "__main__": 
+
+    # hash is order sentisitive
+    empty_sentense1 = Sentence([], 0)
+    empty_sentense2 = Sentence([], 0)
+
+    empty_sentense1.cells = {'1597', '1697', '144'}
+    empty_sentense1.cells.add('705')
+    empty_sentense2.cells = {'705', '1697', '144'}
+    empty_sentense2.cells.add('1597')
+
+    print(empty_sentense1.cells)
+    print(empty_sentense2.cells)
+
+    print(hash(empty_sentense1) == hash(empty_sentense2))
+    print(empty_sentense1 == empty_sentense2)
+
+    empty_sentense2.cells.remove('705')
+    li1 = [empty_sentense2, empty_sentense1]
+    li2 = [empty_sentense1, empty_sentense2]
+    print(li1 == li2)
