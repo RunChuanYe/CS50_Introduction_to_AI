@@ -1,4 +1,4 @@
 slides
 __pycache__
 .pytest_cache
-*.png
+projects/07_crossword/data/*.png
