@@ -2,3 +2,4 @@ slides
 __pycache__
 .pytest_cache
 projects/07_crossword/data/*.png
+projects/10_traffic/gtsrb
