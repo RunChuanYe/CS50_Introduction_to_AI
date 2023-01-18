@@ -2,6 +2,13 @@
 
 Write an AI to identify which traffic sign appears in a photograph.
 
+knowledge related:
+
+- [image-convolution](../notes//lecture5.md/#59-image-convolution)
+- [convolutional-neural-networks](../notes/lecture5.md/#511-convolutional-neural-networks)
+- [backpropagation](../notes/lecture5.md/#55-backpropagation)
+- [overfitting](../notes/lecture5.md/#56-overfitting)
+
 ## 10.1 guide
 
 dataset:
@@ -28,3 +35,7 @@ note:
 pkg:
 
 `python -m pip install opencv-python`
+
+res:
+
+![1674013180374](image/10_traffic/1674013180374.png)
