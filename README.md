@@ -16,6 +16,11 @@
   </ol>
 </details>
 
+<details>
+  <summary>Certificate</summary>
+   <img src="./image/README/CS50AI.png">
+</details>
+
 # About the Project
 
 This project is from Harvard [CS50](https://cs50.harvard.edu/ai/2020/) course.
